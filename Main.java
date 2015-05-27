@@ -1,95 +1,129 @@
-//package de.daslaboratorium.machinelearning.bayes.example;
+import java.io.*;
+import java.util.*;
 
-//import de.daslaboratorium.machinelearning.classifier.BayesClassifier;
-//import de.daslaboratorium.machinelearning.classifier.Classifier;
+/*
 
-import java.util.Arrays;
+This main method has two parts: training and testing. I've divided the cleveland.data dataset
+into the clevelandTrain.txt and clevelandTest.txt, 60% and 40% respectively.
 
+The method parses the clevelandTrain data set first, then trains the classifier with it. Next,
+it parses clevelandTest.txt then classifies the vectors. The accuracy is calculated and printed out.
 
+Accuracy results:
+-No special lambda manipulation: 97.26027% 
+
+*/
 
 public class Main {
-
-    public static void main(String[] args) {
 	
+	@SuppressWarnings("unchecked")
+    public static void main(String[] args) {
 		try {
-			/*
-			 * Create a new classifier instance. The context features are
-			 * Strings and the context will be classified with a String according
-			 * to the featureset of the context.
-			 */
-			final Classifier<String, String> bayes =
-					new BayesClassifier<String, String>();
-			
-			//Reading the cleveland dataset:
-			FeatureVector vector = new FeatureVector();		
-			BufferedReader br = new BufferedReader(new FileReader("cleveland.data"));
+			final Classifier<String, String> bayes = new BayesClassifier<String, String>();
+			bayes.setMemoryCapacity(500);
+			FeatureVector vector;		
+			String[] features = new String[76];
+			String[] parsedLine;
+			BufferedReader br = new BufferedReader(new FileReader("clevelandTrain.txt"));
 			String line = br.readLine();
 			
+			
+			//Part 1: Training with the clevelandTrain.txt dataset:
 			while (line != null) {
-				for(int = ; i < ; i++){
+				vector = new FeatureVector();
 				
+				for(int numFeaturesRecorded = 0; numFeaturesRecorded < features.length;){
+					parsedLine = line.split(" ");
+					for(int j = 0; j < parsedLine.length; j++){
+						features[numFeaturesRecorded] = parsedLine[j];
+						numFeaturesRecorded++;
+					}
+					line = br.readLine();
 				}
-				line = br.readLine();
+	
+				
+				vector.age = features[2];
+				vector.sex = features[3];
+				vector.cp = features[8];
+				vector.trestbps = features[9];
+				vector.chol = features[11];
+				vector.fbs = features[15];
+				vector.restecg = features[18];
+				vector.thalach = features[31];
+				vector.exang = features[37];
+				vector.oldpeak = features[39];
+				vector.slope = features[40];
+				vector.ca = features[43];
+				vector.thal = features[50];
+				vector.num = features[57];
+				
+				
+				
+				if(vector.num.equals("0")){
+						bayes.learn("Has no heart disease", vector.getList());
+				} else {
+						bayes.learn("Has heart disease", vector.getList());
+				}
 			}
 			
-			/*
-			 * The classifier can learn from classifications that are handed over
-			 * to the learn methods. Imagin a tokenized text as follows. The tokens
-			 * are the text's features. The category of the text will either be
-			 * positive or negative.
-			 */
-			final String[] positiveText = "I love sunny days".split("\\s");
-			bayes.learn("positive", Arrays.asList(positiveText));
-
-			final String[] negativeText = "I hate rain".split("\\s");
-			bayes.learn("negative", Arrays.asList(negativeText));
-
-			/*
-			 * Now that the classifier has "learned" two classifications, it will
-			 * be able to classify similar sentences. The classify method returns
-			 * a Classification Object, that contains the given featureset,
-			 * classification probability and resulting category.
-			 */
-			final String[] unknownText1 = "today is a sunny day".split("\\s");
-			final String[] unknownText2 = "there will be rain".split("\\s");
-
-			System.out.println( // will output "positive"
-					bayes.classify(Arrays.asList(unknownText1)).getCategory());
-			System.out.println( // will output "negative"
-					bayes.classify(Arrays.asList(unknownText2)).getCategory());
-
-			/*
-			 * The BayesClassifier extends the abstract Classifier and provides
-			 * detailed classification results that can be retrieved by calling
-			 * the classifyDetailed Method.
-			 *
-			 * The classification with the highest probability is the resulting
-			 * classification. The returned List will look like this.
-			 * [
-			 *   Classification [
-			 *     category=negative,
-			 *     probability=0.0078125,
-			 *     featureset=[today, is, a, sunny, day]
-			 *   ],
-			 *   Classification [
-			 *     category=positive,
-			 *     probability=0.0234375,
-			 *     featureset=[today, is, a, sunny, day]
-			 *   ]
-			 * ]
-			 */
-			((BayesClassifier<String, String>) bayes).classifyDetailed(
-					Arrays.asList(unknownText1));
-
-			/*
-			 * Please note, that this particular classifier implementation will
-			 * "forget" learned classifications after a few learning sessions. The
-			 * number of learning sessions it will record can be set as follows:
-			 */
-			bayes.setMemoryCapacity(500); // remember the last 500 learned classifications
+			
+			
+			//Part 2: Testing with the clevelandTest.txt dataset:
+			
+			float numTotalVectors = 0;
+			float numCorrect = 0;
+			float accuracy;
+			br = new BufferedReader(new FileReader("clevelandTest.txt"));
+			line = br.readLine();
+			
+			while (line != null) {
+				vector = new FeatureVector();
+				
+				for(int numFeaturesRecorded = 0; numFeaturesRecorded < features.length;){
+					parsedLine = line.split(" ");
+					for(int j = 0; j < parsedLine.length; j++){
+						features[numFeaturesRecorded] = parsedLine[j];
+						numFeaturesRecorded++;
+					}
+					line = br.readLine();
+				}
+	
+				
+				vector.age = features[2];
+				vector.sex = features[3];
+				vector.cp = features[8];
+				vector.trestbps = features[9];
+				vector.chol = features[11];
+				vector.fbs = features[15];
+				vector.restecg = features[18];
+				vector.thalach = features[31];
+				vector.exang = features[37];
+				vector.oldpeak = features[39];
+				vector.slope = features[40];
+				vector.ca = features[43];
+				vector.thal = features[50];
+				vector.num = features[57];
+				
+				if(vector.num.equals("0")){
+						if(bayes.classify(vector.getList()).getCategory().equals("Has no heart disease")){
+							numCorrect++;
+						}
+				} else if(bayes.classify(vector.getList()).getCategory().equals("Has heart disease")){
+						numCorrect++;
+				}
+				numTotalVectors++;
+					
+				
+			}
+			
+			accuracy = (numCorrect / numTotalVectors)*100;	
+			System.out.println("Accuracy: " + accuracy + "%");
+			
+			br.close();
+			
 		
 		} catch (Exception e) {
-            System.out.println("S: Something bad happened :(");
+            System.out.println("Main: Something bad happened :(");
             e.printStackTrace();
         }
     }

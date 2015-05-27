@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class featureVector {
+public class FeatureVector {
 	String age; 
 	String sex; 
 	String cp; 
@@ -17,8 +17,8 @@ public class featureVector {
 	String thal; 
 	String num;
 
-	public List<String> getList(){
-		ArrayList<String> values = new ArrayList<String>;
+	public Collection getList(){
+		ArrayList<String> values = new ArrayList<String>();
 		values.add("age=" + age);
 		values.add("sex=" + sex);
 		values.add("cp=" + cp);
