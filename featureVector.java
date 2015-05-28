@@ -32,7 +32,7 @@ public class FeatureVector {
 		values.add("slope=" + slope);
 		values.add("ca=" + ca);
 		values.add("thal=" + thal);
-		values.add("num=" + num);
+		
 		return Arrays.asList(values.toArray(new String[values.size()]));
 	}
 	

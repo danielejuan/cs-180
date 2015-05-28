@@ -293,7 +293,7 @@ public abstract class Classifier<T, K> implements IFeatureProbability<T, K> {
      */
     public float featureWeighedAverage(T feature, K category) {
         return this.featureWeighedAverage(feature, category,
-                null, 0.01f, 0.5f);
+                null, 50.0f, 0.5f);
     }
 
     /**
