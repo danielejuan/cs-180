@@ -3,14 +3,28 @@ import java.util.*;
 
 /*
 
-This main method has two parts: training and testing. I've divided the cleveland.data dataset
+This main method has two parts: training and testing. For this, I've divided the cleveland.data dataset
 into the clevelandTrain.txt and clevelandTest.txt, 60% and 40% respectively.
 
 The method parses the clevelandTrain data set first, then trains the classifier with it. Next,
 it parses clevelandTest.txt then classifies the vectors. The accuracy is calculated and printed out.
 
-Accuracy results:
--No special lambda manipulation: 97.26027% 
+Accuracy results with different lambdas:
+
+-0.0: 58.90411%
+-0.01: 100%
+-0.2: 98.630135%
+-0.3: 98.630135%
+-0.4: 97.26027% 
+-0.5: 97.26027% 
+-1.0: 97.26027%
+-2.0: 94.52046% 
+-5.0: 91.78082%
+-10.0: 90.41096%
+-20.0: 90.41096%
+-50.0: 86.30137%
+-100.0: 86.30137%
+ 
 
 */
 
